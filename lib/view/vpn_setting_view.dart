@@ -6,7 +6,8 @@ class VpnSettingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Text("pisya"),
+      backgroundColor: Color(0xFFFFFDFA),
+      body: Center(child: Text("pisya")),
     );
   }
 }
