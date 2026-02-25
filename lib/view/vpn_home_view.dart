@@ -10,7 +10,7 @@ class VpnHomeView extends StatefulWidget {
 }
 
 class _VpnHomeViewState extends State<VpnHomeView> {
-  Color? _isColor = Color(0xFF002FFF);
+  Color? _isColor = Colors.black;
   bool _isColorBool = false;
 
   void _changeColor() {
@@ -69,24 +69,24 @@ class _VpnHomeViewState extends State<VpnHomeView> {
           return Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(height: isBreakPointWidth ? width * 0.02 : width * 0.4),
+              SizedBox(height: isBreakPointWidth ? width * 0.01 : width * 0.4),
               Center(
                 child: GestureDetector(
                   onTap: () {
                     _changeColor();
                   },
                   child: TweenAnimationBuilder<Color?>(
-                  tween: ColorTween(begin: _isColor, end: _isColor),
-                  duration: Duration(milliseconds: 300),
-                  builder: (context, color, child) {
-                    return SvgPicture.asset(
-                      "assets/logoConnect.svg",
-                      width: isBreakPointWidth ? width * 0.18 : width * 0.5,
-                      colorFilter: ColorFilter.mode(color!, BlendMode.srcIn),
-                    );
-                  }
+                    tween: ColorTween(begin: _isColor, end: _isColor),
+                    duration: Duration(milliseconds: 300),
+                    builder: (context, color, child) {
+                      return SvgPicture.asset(
+                        "assets/logoConnect.svg",
+                        width: isBreakPointWidth ? width * 0.18 : width * 0.5,
+                        colorFilter: ColorFilter.mode(color!, BlendMode.srcIn),
+                      );
+                    },
+                  ),
                 ),
-                )
               ),
               SizedBox(height: isBreakPointWidth ? width * 0.01 : width * 0.1),
               Text(
@@ -124,14 +124,18 @@ class NavigationBarView extends StatefulWidget {
 
 class _NavigationBarViewState extends State<NavigationBarView> {
   int _currentIndex = 0;
-  final List<Widget> views = [VpnHomeView(), VpnSettingView()];
+  final List<Widget> views = const [
+    VpnHomeView(),
+    VpnSettingView(),
+  ];
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final isBreakpointWidth = width >= 600;
+    
     return Scaffold(
-      backgroundColor: Color(0xFFFFFDFA),
+      backgroundColor: const Color(0xFFFFFDFA),
       bottomNavigationBar: Padding(
         padding: EdgeInsets.only(
           bottom: isBreakpointWidth ? width * 0.02 : width * 0.1,
@@ -146,46 +150,48 @@ class _NavigationBarViewState extends State<NavigationBarView> {
             ),
             child: Stack(
               children: [
-                Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          setState(() => _currentIndex = 1);
-                        },
-                        child: SvgPicture.asset(
-                          "assets/settingsLogo.svg",
-                          colorFilter: ColorFilter.mode(
-                            _currentIndex == 1
-                                ? Color(0xFF002FFF)
-                                : Colors.black,
-                            BlendMode.srcIn,
-                          ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: EdgeInsets.only(left: width * 0.05),
+                    child: GestureDetector(
+                      onTap: () => setState(() => _currentIndex = 1),
+                      child: SvgPicture.asset(
+                        "assets/settingsLogo.svg",
+                        colorFilter: ColorFilter.mode(
+                          _currentIndex == 1 
+                              ? const Color(0xFF002FFF) 
+                              : Colors.black,
+                          BlendMode.srcIn,
                         ),
                       ),
-                      Positioned(
-                        child: Container(
-                          width: 1.5,
-                          height: 10,
-                          color: Colors.black,
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                    width: 1.5,
+                    height: 15,
+                    color: Colors.black,
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding: EdgeInsets.only(right: width * 0.05),
+                    child: GestureDetector(
+                      onTap: () => setState(() => _currentIndex = 0),
+                      child: SvgPicture.asset(
+                        "assets/vpnLogo.svg",
+                        colorFilter: ColorFilter.mode(
+                          _currentIndex == 0 
+                              ? const Color(0xFF002FFF) 
+                              : Colors.black,
+                          BlendMode.srcIn,
                         ),
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          setState(() => _currentIndex = 0);
-                        },
-                        child: SvgPicture.asset(
-                          "assets/vpnLogo.svg",
-                          colorFilter: ColorFilter.mode(
-                            _currentIndex == 0
-                                ? Color(0xFF002FFF)
-                                : Colors.black,
-                            BlendMode.srcIn,
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
               ],
