@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vpn_whitexproject_app/view/vpn_setting_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:vpn_whitexproject_app/widget/navigation_bar_widget.dart';
 
 class VpnHomeView extends StatefulWidget {
   const VpnHomeView({super.key});
@@ -11,6 +10,16 @@ class VpnHomeView extends StatefulWidget {
 }
 
 class _VpnHomeViewState extends State<VpnHomeView> {
+  Color? _isColor = Color(0xFF002FFF);
+  bool _isColorBool = false;
+
+  void _changeColor() {
+    setState(() {
+      _isColor = _isColorBool ? Color(0xFF002FFF) : Colors.black;
+      _isColorBool = !_isColorBool;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +62,55 @@ class _VpnHomeViewState extends State<VpnHomeView> {
           },
         ),
       ),
-      body: Center(child: Text("vpn home")),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final width = constraints.maxWidth;
+          final isBreakPointWidth = width >= 600;
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(height: isBreakPointWidth ? width * 0.02 : width * 0.4),
+              Center(
+                child: GestureDetector(
+                  onTap: () {
+                    _changeColor();
+                  },
+                  child: TweenAnimationBuilder<Color?>(
+                  tween: ColorTween(begin: _isColor, end: _isColor),
+                  duration: Duration(milliseconds: 300),
+                  builder: (context, color, child) {
+                    return SvgPicture.asset(
+                      "assets/logoConnect.svg",
+                      width: isBreakPointWidth ? width * 0.18 : width * 0.5,
+                      colorFilter: ColorFilter.mode(color!, BlendMode.srcIn),
+                    );
+                  }
+                ),
+                )
+              ),
+              SizedBox(height: isBreakPointWidth ? width * 0.01 : width * 0.1),
+              Text(
+                "disconnected",
+                style: TextStyle(
+                  fontSize: 22,
+                  fontFamily: "Afacad",
+                  color: Colors.black,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              Text(
+                "00:00:00",
+                style: TextStyle(
+                  fontSize: 22,
+                  fontFamily: "Afacad",
+                  color: Colors.black,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 }
