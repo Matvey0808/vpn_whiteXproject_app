@@ -17,7 +17,94 @@ class VpnConnected {
   Function(bool isConnected, bool isConnecting)? onStatusChanged;
 
   Map<String, dynamic> _configVpn() {
-    return {};
+    return {
+      "log": {"loglevel": "warning"},
+      "dns": {
+        "servers": [
+          "fakedns",
+          {"address": "https://1.1.1.1/dns-query", "queryStrategy": "UseIPv4"},
+          {
+            "address": "https://dns.adguard.com/dns-query",
+            "queryStrategy": "UseIPv4",
+          },
+        ],
+        "queryStrategy": "UseIPv4",
+      },
+      "inbounds": [
+        {
+          "port": 10808,
+          "listen": "127.0.0.1",
+          "protocol": "socks",
+          "settings": {"udp": true},
+          "sniffing": {
+            "enabled": true,
+            "destOverride": ["http", "tls", "fakedns"],
+          },
+        },
+        {
+          "port": 10809,
+          "listen": "127.0.0.1",
+          "protocol": "http",
+          "settings": {"udp": true},
+        },
+      ],
+      "outbounds": [
+        {
+          "tag": "proxy",
+          "protocol": "vless",
+          "settings": {
+            "vnext": [
+              {
+                "address": "82.146.45.65",
+                "port": 28935,
+                "users": [
+                  {
+                    "id": "a0137aa8-64c2-4530-8406-49dab1ba8c96",
+                    "encryption": "none",
+                  },
+                ],
+              },
+            ],
+          },
+          "streamSettings": {
+            "network": "xhttp",
+            "security": "reality",
+            "realitySettings": {
+              "serverName": "music.yandex.ru",
+              "publicKey": "GtHFuOW36ynLan2UWFr1wSasnuLKY6KXP5uF00TROyA",
+              "shortId": "a2cf615dde4e8d74",
+              "fingerprint": "chrome",
+            },
+            "xhttpSettings": {
+              "path": "/",
+              "mode": "auto",
+              "host": "music.yandex.ru",
+              "scMaxEachPostBytes": 15000,
+            },
+            "fragment": {
+              "packets": "1-3",
+              "length": "14000-20000",
+              "interval": "5-15",
+            },
+          },
+          "sniffing": {
+            "enabled": true,
+            "destOverride": ["http", "tls"],
+            "metadataOnly": false,
+          },
+        },
+        {"protocol": "freedom", "tag": "direct"},
+      ],
+      "routing": {
+        "rules": [
+          {
+            "type": "field",
+            "ip": ["geoip:private"],
+            "outboundTag": "direct",
+          },
+        ],
+      },
+    };
   }
 
   String _getConfigString() {
@@ -41,7 +128,7 @@ class VpnConnected {
     try {
       await _v2ray.initialize(
         notificationIconResourceType: "mipmap",
-        notificationIconResourceName: "ic_launcher"
+        notificationIconResourceName: "ic_launcher",
       );
       _isInit = true;
     } catch (e) {
