@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vpn_whitexproject_app/view/vpn_setting_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:vpn_whitexproject_app/service/vpn_connected.dart';
 
 class VpnHomeView extends StatefulWidget {
   const VpnHomeView({super.key});
@@ -14,62 +12,11 @@ class _VpnHomeViewState extends State<VpnHomeView> {
   Color? _isColor = Colors.black;
   bool _isColorBool = false;
 
-  bool _isConnected = false;
-  bool _isConnecting = false;
-  String? _errorMessage;
-
-  @override
-  void initState() {
-    super.initState();
-
-    VpnConnected().onStatusChanged = (connected, connecting) {
-      if (mounted) {
-        setState(() {
-          _isConnected = connected;
-          _isConnecting = connecting;
-        });
-      }
-    };
-
-    VpnConnected().init();
-  }
-
-  Color _changeColor() {
-    if (_isConnected) return const Color(0xFF002FFF);
-    return Colors.black;
-  }
-
-  Future<void> _tapVpn() async {
-    if (_isConnecting) return;
-
-    try {
-      if (_isConnected) {
-        await VpnConnected().disconnect();
-      } else {
-        String? error = await VpnConnected().connect();
-
-        if (error != null && mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(error), backgroundColor: Colors.red),
-          );
-        }
-      }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text("Неизвестная ошибка: $e"),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
-    }
-  }
-
-  @override
-  void dispose() {
-    VpnConnected().onStatusChanged = null;
-    super.dispose();
+  void _changeColor() {
+    setState(() {
+      _isColor = _isColorBool ? Color(0xFF002FFF) : Colors.black;
+      _isColorBool = !_isColorBool;
+    });
   }
 
   @override
@@ -88,7 +35,7 @@ class _VpnHomeViewState extends State<VpnHomeView> {
               Center(
                 child: GestureDetector(
                   onTap: () {
-                    _tapVpn();
+                    _changeColor();
                   },
                   child: TweenAnimationBuilder<Color?>(
                     tween: ColorTween(begin: _isColor, end: _isColor),
@@ -104,35 +51,15 @@ class _VpnHomeViewState extends State<VpnHomeView> {
                 ),
               ),
               SizedBox(height: isBreakPointWidth ? width * 0.01 : width * 0.1),
-              _isConnecting
-                  ? const Text(
-                      "connecting...",
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontFamily: "Afacad",
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    )
-                  : _isConnected
-                  ? const Text(
-                      "connected",
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontFamily: "Afacad",
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    )
-                  : Text(
-                      "disconnected",
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontFamily: "Afacad",
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
+              Text(
+                "disconnected",
+                style: TextStyle(
+                  fontSize: 22,
+                  fontFamily: "Afacad",
+                  color: Colors.black,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
               Text(
                 "00:00:00",
                 style: TextStyle(
@@ -190,6 +117,7 @@ class _VpnHomeViewState extends State<VpnHomeView> {
       ),
     );
   }
+
   //////////////////////////////////////
   /////////////////////////////////////////
 }
