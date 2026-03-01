@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import "package:vpn_whitexproject_app/view/vpn_home_view.dart";
+import "package:vpn_whitexproject_app/view/vpn_navigation_bar_view.dart";
 
 void main() {
   runApp(const MyApp());
