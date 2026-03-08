@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:vpn_whitexproject_app/service/vpn_service.dart';
 
 class VpnHomeView extends StatefulWidget {
   const VpnHomeView({super.key});
@@ -11,6 +12,7 @@ class VpnHomeView extends StatefulWidget {
 class _VpnHomeViewState extends State<VpnHomeView> {
   Color? _isColor = Colors.black;
   bool _isColorBool = false;
+  bool _isStartStop = false;
 
   void _changeColor() {
     setState(() {
@@ -34,8 +36,12 @@ class _VpnHomeViewState extends State<VpnHomeView> {
               SizedBox(height: isBreakPointWidth ? width * 0.01 : width * 0.4),
               Center(
                 child: GestureDetector(
-                  onTap: () {
+                  onTap: () async {
                     _changeColor();
+                    _isStartStop = !_isStartStop;
+                    _isStartStop == false
+                        ? VpnService.stopService()
+                        : VpnService.startService();
                   },
                   child: TweenAnimationBuilder<Color?>(
                     tween: ColorTween(begin: _isColor, end: _isColor),
@@ -75,6 +81,7 @@ class _VpnHomeViewState extends State<VpnHomeView> {
       ),
     );
   }
+
   //////////////////////////////////////
   /////////////////////////////////////////
   PreferredSizeWidget _AppBarVpn() {
