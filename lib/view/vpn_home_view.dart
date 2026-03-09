@@ -17,7 +17,6 @@ class _VpnHomeViewState extends State<VpnHomeView> {
   void _changeColor() {
     setState(() {
       _isColor = _isColorBool ? Color(0xFF002FFF) : Colors.black;
-      _isColorBool = !_isColorBool;
     });
   }
 
@@ -37,11 +36,14 @@ class _VpnHomeViewState extends State<VpnHomeView> {
               Center(
                 child: GestureDetector(
                   onTap: () async {
-                    _changeColor();
-                    _isStartStop = !_isStartStop;
-                    _isStartStop == false
-                        ? VpnService.stopService()
-                        : VpnService.startService();
+                    setState(() {
+                      _isColorBool = !_isColorBool;
+                      _changeColor();
+                      _isStartStop = !_isStartStop;
+                      _isStartStop == false
+                          ? VpnService.stopService()
+                          : VpnService.startService();
+                    });
                   },
                   child: TweenAnimationBuilder<Color?>(
                     tween: ColorTween(begin: _isColor, end: _isColor),
