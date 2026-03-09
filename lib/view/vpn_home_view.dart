@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vpn_whitexproject_app/service/vpn_service.dart';
+import 'dart:async';
 
 class VpnHomeView extends StatefulWidget {
   const VpnHomeView({super.key});
@@ -13,11 +14,48 @@ class _VpnHomeViewState extends State<VpnHomeView> {
   Color? _isColor = Colors.black;
   bool _isColorBool = false;
   bool _isStartStop = false;
+  int _seconds = 0;
+  Timer? _timer;
+  var timeStr = "00:00:00";
 
   void _changeColor() {
     setState(() {
       _isColor = _isColorBool ? Color(0xFF002FFF) : Colors.black;
     });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  void _timerVpn() {
+    _timer?.cancel();
+
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        _seconds++;
+      });
+    });
+    setState(() {      
+    });
+  }
+
+  void _stop() {
+    _timer?.cancel();
+    _seconds = 0;
+  }
+
+  String _formatedTimer() {
+    final seconds = _seconds % 60;
+    final minutes = (_seconds % 3600) ~/ 60;
+    final hourse = _seconds ~/ 3600;
+
+    final minStr = minutes.toString().padLeft(2, '0');
+    final secStr = seconds.toString().padLeft(2, '0');
+    final horStr = hourse.toString().padLeft(2, '0');
+    return '$horStr:$minStr:$secStr';
   }
 
   @override
@@ -37,6 +75,12 @@ class _VpnHomeViewState extends State<VpnHomeView> {
                 child: GestureDetector(
                   onTap: () async {
                     setState(() {
+                      if (_isColorBool == false) {
+                        _timerVpn();
+                      } else {
+                        _stop();
+                      }
+                      print(_isColorBool);
                       _isColorBool = !_isColorBool;
                       _changeColor();
                       _isStartStop = !_isStartStop;
@@ -69,7 +113,7 @@ class _VpnHomeViewState extends State<VpnHomeView> {
                 ),
               ),
               Text(
-                "00:00:00",
+                _formatedTimer(),
                 style: TextStyle(
                   fontSize: 22,
                   fontFamily: "Afacad",
