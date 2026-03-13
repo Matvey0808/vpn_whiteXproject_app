@@ -38,8 +38,6 @@ class _VpnHomeViewState extends State<VpnHomeView> {
         _seconds++;
       });
     });
-    setState(() {      
-    });
   }
 
   void _stop() {
@@ -133,7 +131,7 @@ class _VpnHomeViewState extends State<VpnHomeView> {
   PreferredSizeWidget _AppBarVpn() {
     return AppBar(
       backgroundColor: Color(0xFFFFFDFA),
-      toolbarHeight: 90,
+      toolbarHeight: 70,
       title: LayoutBuilder(
         builder: (context, constraints) {
           final widthConstraints = constraints.maxWidth;
@@ -144,23 +142,10 @@ class _VpnHomeViewState extends State<VpnHomeView> {
                 clipBehavior: Clip.none,
                 children: [
                   SvgPicture.asset(
-                    "assets/logo4.svg",
+                    "assets/whiteNetLogo.svg",
                     width: isBreakpointWidth
-                        ? widthConstraints * 0.1
-                        : widthConstraints * 0.2,
-                  ),
-                  Positioned(
-                    top: isBreakpointWidth ? 27 : 23,
-                    left: isBreakpointWidth ? 51 : 45,
-                    child: Text(
-                      "whiteX.project",
-                      style: TextStyle(
-                        fontFamily: "Afacad",
-                        fontSize: isBreakpointWidth ? 22 : 18,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
+                        ? widthConstraints * 0.2
+                        : widthConstraints * 0.32,
                   ),
                 ],
               ),
