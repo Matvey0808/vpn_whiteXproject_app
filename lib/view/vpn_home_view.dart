@@ -37,7 +37,7 @@ class _VpnHomeViewState extends State<VpnHomeView> {
                   clipBehavior: Clip.none,
                   children: [
                     SvgPicture.asset(
-                      "assets/whiteNetLogo.svg",
+                      "assets/whiteNet-logo 4.svg",
                       width: isBreakpointWidth
                           ? widthConstraints * 0.16
                           : widthConstraints * 0.32,

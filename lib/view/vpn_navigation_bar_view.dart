@@ -42,10 +42,10 @@ class _NavigationBarViewState extends State<NavigationBarView> {
                     child: GestureDetector(
                       onTap: () => setState(() => _currentIndex = 1),
                       child: SvgPicture.asset(
-                        "assets/test 1.svg",
+                        "assets/set-icon-two 1.svg",
                         colorFilter: ColorFilter.mode(
                           _currentIndex == 1
-                              ? const Color(0xFF002FFF)
+                              ? const Color(0xFF0000B3)
                               : Colors.black,
                           BlendMode.srcIn,
                         ),
@@ -64,7 +64,7 @@ class _NavigationBarViewState extends State<NavigationBarView> {
                     child: GestureDetector(
                       onTap: () => setState(() => _currentIndex = 0),
                       child: SvgPicture.asset(
-                        "assets/net 1.svg",
+                        "assets/network-icon 1.svg",
                         colorFilter: ColorFilter.mode(
                           _currentIndex == 0
                               ? const Color(0xFF002FFF)
