@@ -23,7 +23,7 @@ class _NavigationBarViewState extends State<NavigationBarView> {
       backgroundColor: const Color(0xFFFFFDFA),
       bottomNavigationBar: Padding(
         padding: EdgeInsets.only(
-          bottom: isBreakpointWidth ? width * 0.02 : width * 0.1,
+          bottom: isBreakpointWidth ? width * 0.01 : width * 0.04,
         ),
         child: SafeArea(
           child: Container(
@@ -55,7 +55,7 @@ class _NavigationBarViewState extends State<NavigationBarView> {
                 ),
                 Align(
                   alignment: Alignment.center,
-                  child: Container(width: 1.5, height: 15, color: Color(0xFFD60000)),
+                  child: Container(width: 1.5, height: 8, color: Color(0xFFD60000)),
                 ),
                 Align(
                   alignment: Alignment.centerRight,
@@ -67,7 +67,7 @@ class _NavigationBarViewState extends State<NavigationBarView> {
                         "assets/network-icon 1.svg",
                         colorFilter: ColorFilter.mode(
                           _currentIndex == 0
-                              ? const Color(0xFF002FFF)
+                              ? const Color(0xFF0000B3)
                               : Colors.black,
                           BlendMode.srcIn,
                         ),

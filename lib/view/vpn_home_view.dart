@@ -3,7 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vpn_whitexproject_app/provider/vpn_state_button.dart';
 import 'package:vpn_whitexproject_app/provider/vpn_state_timer.dart';
 import 'package:vpn_whitexproject_app/service/vpn_service.dart';
-import 'dart:async';
 import 'package:provider/provider.dart';
 
 class VpnHomeView extends StatefulWidget {
@@ -90,7 +89,7 @@ class _VpnHomeViewState extends State<VpnHomeView> {
                             "assets/logoConnect.svg",
                             width: isBreakPointWidth
                                 ? width * 0.18
-                                : width * 0.5,
+                                : width * 0.63,
                             colorFilter: ColorFilter.mode(
                               color!,
                               BlendMode.srcIn,
@@ -104,32 +103,51 @@ class _VpnHomeViewState extends State<VpnHomeView> {
                 /////////////////////////////
                 /////////////////////////////
               ),
-              SizedBox(height: isBreakPointWidth ? width * 0.01 : width * 0.1),
-              Text(
-                "disconnected",
-                style: TextStyle(
-                  fontSize: 22,
-                  fontFamily: "Afacad",
-                  color: Colors.black,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              ValueListenableBuilder(
-                valueListenable: timer.secondsNotifier,
-                builder: (context, seconds, timer) {
-                  print("Перерисовался buildNotifier1");
-                  final timer = context.read<VpnStateTimer>();
-
-                  return Text(
-                    "${timer.formatedTimer()}",
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontFamily: "Afacad",
-                      color: Colors.black,
-                      fontWeight: FontWeight.w500,
+              SizedBox(height: isBreakPointWidth ? width * 0.01 : width * 0.06),
+              Stack(
+                children: [
+                  Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      "disconnected",
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontFamily: "Afacad",
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: 0.3
+                      ),
                     ),
-                  );
-                },
+                  ),
+                  ValueListenableBuilder(
+                    valueListenable: timer.secondsNotifier,
+                    builder: (context, seconds, timer) {
+                      print("Перерисовался buildNotifier1");
+                      final timer = context.read<VpnStateTimer>();
+                      final width = MediaQuery.of(context).size.width;
+                      final isWidth = width >= 600;
+
+                      return Align(
+                        alignment: Alignment.center,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                            vertical: isWidth ? width * 0.02 : width * 0.05
+                          ),
+                          child: Text(
+                            "${timer.formatedTimer()}",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontFamily: "Afacad",
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500,
+                              letterSpacing: 0.3
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ],
               ),
             ],
           );
