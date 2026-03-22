@@ -16,13 +16,15 @@ linter:
     prefer_const_declarations: true
     prefer_const_literals_to_create_immutables: true
     prefer_final_locals: true
+    omit_local_variable_types: true
     prefer_final_in_for_each: true
     use_full_hex_values_for_flutter_colors: true
     sized_box_for_whitespace: true
     avoid_print: true
     avoid_unnecessary_containers: true
     avoid_redundant_argument_values: false
-    prefer_relative_imports: true
+    always_use_package_imports: true
+    prefer_relative_imports: false
     require_trailing_commas: true
 
     # Safety
