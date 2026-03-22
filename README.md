@@ -1,16 +1,54 @@
-# vpn_whitexproject_app
+# White X VPN
 
-A new Flutter project.
+Flutter VPN app with [xray-core](https://github.com/xtls/xray-core) backend.
 
-## Getting Started
+## Prerequisites
 
-This project is a starting point for a Flutter application.
+- Flutter 3.10+
+- Go 1.22+
+- gomobile:
+  ```bash
+  make -C packages/xray-mobile setup
+  ```
+- Android NDK (for Android builds)
+- Xcode (for iOS builds)
 
-A few resources to get you started if this is your first Flutter project:
+## Build
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### 1. Build native libraries
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```bash
+# Both platforms
+make -C packages/xray-mobile all
+
+# Or one at a time
+make -C packages/xray-mobile android
+make -C packages/xray-mobile ios
+```
+
+This only needs to be re-run when `packages/xray-mobile/` changes.
+
+### 2. Build the app
+
+```bash
+# Android
+flutter build apk
+
+# iOS
+flutter build ios
+```
+
+## Project structure
+
+```
+├── lib/                     # Dart source
+│   ├── provider/            # State management
+│   ├── service/             # Platform channel services
+│   └── view/                # UI
+├── packages/
+│   └── xray-mobile/         # Go wrapper around xray-core (see its README)
+├── android/                 # Android native
+│   └── app/libs/            # gomobile .aar output (gitignored)
+└── ios/                     # iOS native
+    └── Xraymobile.xcframework/  # gomobile xcframework output (gitignored)
+```

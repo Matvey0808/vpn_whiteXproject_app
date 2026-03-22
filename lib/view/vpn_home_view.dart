@@ -39,7 +39,7 @@ class _VpnHomeViewState extends State<VpnHomeView> {
     _isStartTimer = !_isStartTimer;
     _isStartTimer == false
         ? await VpnService.stopService()
-        : await VpnService.startService();
+        : await VpnService.startService('{}');
   }
 
   @override

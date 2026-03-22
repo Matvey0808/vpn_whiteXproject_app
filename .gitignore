@@ -46,6 +46,11 @@ app.*.map.json
 *.env.*
 credentials.json
 
+# gomobile build artifacts
+/android/app/libs/xraymobile.aar
+/android/app/libs/xraymobile-sources.jar
+/ios/Xraymobile.xcframework/
+
 # Android Studio will place build artifacts here
 /android/app/debug
 /android/app/profile
