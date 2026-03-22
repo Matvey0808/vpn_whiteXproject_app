@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 class VpnStateTimer extends ChangeNotifier {
-  final ValueNotifier<int> secondsNotifier = ValueNotifier(0);
+  final secondsNotifier = ValueNotifier(0);
   Timer? _timer;
 
   int get seconds => secondsNotifier.value;
@@ -22,13 +22,13 @@ class VpnStateTimer extends ChangeNotifier {
     final secStr = seconds.toString().padLeft(2, '0');
     final horStr = hourse.toString().padLeft(2, '0');
 
-    return "${horStr}:${minStr}:${secStr}";
+    return '$horStr:$minStr:$secStr';
   }
 
   void timerVpn() {
     _timer?.cancel();
 
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       secondsNotifier.value++;
       notifyListeners();
     });

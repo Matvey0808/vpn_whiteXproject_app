@@ -7,8 +7,8 @@ class VpnSettingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFFFFDFA),
-      body: Center(child: SvgPicture.asset("assets/whiteNet-logo 4.svg")),
+      backgroundColor: const Color(0xFFFFFDFA),
+      body: Center(child: SvgPicture.asset('assets/whiteNet-logo 4.svg')),
     );
   }
 }

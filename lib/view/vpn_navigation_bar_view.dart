@@ -12,7 +12,7 @@ class NavigationBarView extends StatefulWidget {
 
 class _NavigationBarViewState extends State<NavigationBarView> {
   int _currentIndex = 0;
-  final List<Widget> views = const [VpnHomeView(), VpnSettingView()];
+  final views = const [VpnHomeView(), VpnSettingView()];
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class _NavigationBarViewState extends State<NavigationBarView> {
                     child: GestureDetector(
                       onTap: () => setState(() => _currentIndex = 1),
                       child: SvgPicture.asset(
-                        "assets/set-icon-two 1.svg",
+                        'assets/set-icon-two 1.svg',
                         colorFilter: ColorFilter.mode(
                           _currentIndex == 1
                               ? const Color(0xFF0000B3)
@@ -54,8 +54,11 @@ class _NavigationBarViewState extends State<NavigationBarView> {
                   ),
                 ),
                 Align(
-                  alignment: Alignment.center,
-                  child: Container(width: 1.5, height: 8, color: Color(0xFFD60000)),
+                  child: Container(
+                    width: 1.5,
+                    height: 8,
+                    color: const Color(0xFFD60000),
+                  ),
                 ),
                 Align(
                   alignment: Alignment.centerRight,
@@ -64,7 +67,7 @@ class _NavigationBarViewState extends State<NavigationBarView> {
                     child: GestureDetector(
                       onTap: () => setState(() => _currentIndex = 0),
                       child: SvgPicture.asset(
-                        "assets/network-icon 1.svg",
+                        'assets/network-icon 1.svg',
                         colorFilter: ColorFilter.mode(
                           _currentIndex == 0
                               ? const Color(0xFF0000B3)
