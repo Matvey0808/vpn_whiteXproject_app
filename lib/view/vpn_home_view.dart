@@ -17,6 +17,13 @@ class VpnHomeView extends StatefulWidget {
 class _VpnHomeViewState extends State<VpnHomeView> {
   bool _isStartTimer = false;
 
+  String _formatDuration(Duration d) {
+    final hours = d.inHours.toString().padLeft(2, '0');
+    final minutes = (d.inMinutes % 60).toString().padLeft(2, '0');
+    final seconds = (d.inSeconds % 60).toString().padLeft(2, '0');
+    return '$hours:$minutes:$seconds';
+  }
+
   Future<void> _onConnectionTap(
     VpnStateTimer timer,
     VpnStateButton colorButton,
@@ -126,10 +133,9 @@ class _VpnHomeViewState extends State<VpnHomeView> {
                     ),
                   ),
                   ValueListenableBuilder(
-                    valueListenable: timer.secondsNotifier,
-                    builder: (context, seconds, timer) {
+                    valueListenable: timer.durationNotifier,
+                    builder: (context, duration, timer) {
                       log('VpnHomeView timer rebuild');
-                      final timer = context.read<VpnStateTimer>();
                       final width = MediaQuery.of(context).size.width;
                       final isWidth = width >= 600;
 
@@ -139,7 +145,7 @@ class _VpnHomeViewState extends State<VpnHomeView> {
                             vertical: isWidth ? width * 0.02 : width * 0.05,
                           ),
                           child: Text(
-                            timer.formatedTimer(),
+                            _formatDuration(duration),
                             style: const TextStyle(
                               fontSize: 20,
                               fontFamily: 'Afacad',
