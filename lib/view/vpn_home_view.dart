@@ -17,6 +17,24 @@ class VpnHomeView extends StatefulWidget {
 class _VpnHomeViewState extends State<VpnHomeView> {
   bool _isStartTimer = false;
 
+  Future<void> _onConnectionTap(
+    VpnStateTimer timer,
+    VpnStateButton colorButton,
+  ) async {
+    if (colorButton.isColorBool == false) {
+      timer.timerVpn();
+    } else {
+      timer.stop();
+    }
+    colorButton
+      ..isColorBool = !colorButton.isColorBool
+      ..changeColor();
+    _isStartTimer = !_isStartTimer;
+    _isStartTimer == false
+        ? await VpnService.stopService()
+        : await VpnService.startService();
+  }
+
   @override
   Widget build(BuildContext context) {
     final timer = context.read<VpnStateTimer>();
@@ -66,20 +84,7 @@ class _VpnHomeViewState extends State<VpnHomeView> {
                     final colorButton = context.read<VpnStateButton>();
                     log('VpnHomeView connectionColor rebuild');
                     return GestureDetector(
-                      onTap: () async {
-                        if (colorButton.isColorBool == false) {
-                          timer.timerVpn();
-                        } else {
-                          timer.stop();
-                        }
-                        colorButton
-                          ..isColorBool = !colorButton.isColorBool
-                          ..changeColor();
-                        _isStartTimer = !_isStartTimer;
-                        _isStartTimer == false
-                            ? await VpnService.stopService()
-                            : await VpnService.startService();
-                      },
+                      onTap: () => _onConnectionTap(timer, colorButton),
                       child: TweenAnimationBuilder<Color?>(
                         tween: ColorTween(
                           begin: colorButton.connectionColor.value,
