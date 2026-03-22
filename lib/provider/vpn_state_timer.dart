@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 class VpnStateTimer extends ChangeNotifier {
-  final secondsNotifier = ValueNotifier(0);
+  final durationNotifier = ValueNotifier(Duration.zero);
   Timer? _timer;
 
-  int get seconds => secondsNotifier.value;
+  Duration get duration => durationNotifier.value;
 
   @override
   void dispose() {
@@ -13,30 +13,18 @@ class VpnStateTimer extends ChangeNotifier {
     super.dispose();
   }
 
-  String formatedTimer() {
-    final seconds = secondsNotifier.value % 60;
-    final minutes = (secondsNotifier.value % 3600) ~/ 60;
-    final hourse = secondsNotifier.value ~/ 3600;
-
-    final minStr = minutes.toString().padLeft(2, '0');
-    final secStr = seconds.toString().padLeft(2, '0');
-    final horStr = hourse.toString().padLeft(2, '0');
-
-    return '$horStr:$minStr:$secStr';
-  }
-
   void timerVpn() {
     _timer?.cancel();
 
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      secondsNotifier.value++;
+      durationNotifier.value += const Duration(seconds: 1);
       notifyListeners();
     });
   }
 
   void stop() {
     _timer?.cancel();
-    secondsNotifier.value = 0;
+    durationNotifier.value = Duration.zero;
     notifyListeners();
   }
 }
